@@ -1,0 +1,31 @@
+{% extends "base.html"%}
+{% load static%}
+
+{% block title %}
+My post title
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'blog/post-detail.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+<section id="summary">
+    <h2> Post Title</h2>
+    <article>
+        <img src="{% static 'blog/images/moutains.jpg'%}" alt="" />
+        <address>By Ankit</address>
+        
+        <div> Last Upadated On<time>29th August</time></div>
+        
+    </article>
+</section>
+<main>
+    <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse, neque exercitationem non sunt doloribus, quas,
+        maiores fugiat pariatur repudiandae nulla quae laborum. Cum fuga quidem facere maiores expedita blanditiis eum!
+    </p>
+</main>
+
+{%endblock%}
