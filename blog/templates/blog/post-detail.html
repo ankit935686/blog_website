@@ -11,21 +11,50 @@ My post title
 {% endblock %}
 
 {% block content %}
+
+{% if comment_form.errors %}
+<div id="alert">
+    <h2> saving the comment failed!</h2>
+    <p>please check the comment form below the post and fix your error</p>
+    <a href="#comment-form">Fix!</a>
+</div>
+{% endif%}
+
 <section id="summary">
-    <h2> Post Title</h2>
+    <h2> {{post.title}}</h2>
+    <div>
+        {% for tag in post_tags%}
+        <span class="tag">{{tag.caption}}</span>
+        {%endfor%}
+    </div>
     <article>
-        <img src="{% static 'blog/images/moutains.jpg'%}" alt="" />
-        <address>By Ankit</address>
-        
-        <div> Last Upadated On<time>29th August</time></div>
-        
+        <img src="{{post.image.url}}" alt="{{post.title}}" />
+        <address>By <a href="mailto:{{post.author.email_address}}">{{ post.author }}</a></address>
+
+        <div> Last Upadated On<time>{{post.date|date:" d M Y"}}</time></div>
+
     </article>
 </section>
+
+
 <main>
-    <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse, neque exercitationem non sunt doloribus, quas,
-        maiores fugiat pariatur repudiandae nulla quae laborum. Cum fuga quidem facere maiores expedita blanditiis eum!
-    </p>
+    {{post.content|linebreaks}}
+
 </main>
+<section id="comment-form">
+    <h2>Your Comment</h2>
+    <form action="{% url 'post-detail-page' slug=post.slug %}" method="POST">
+        {%csrf_token%}
+        {% for form_field in comment_form%}
+        <div class="form-control{% if form_field.errors %}invalid{% endif %}">
+            {{form_field.label_tag}}
+            {{form_field}}
+            {{form_field.errors}}
+        </div>
+        {%endfor%}
+        <button>Save Comment</button>
+    </form>
+</section>
+
 
 {%endblock%}
